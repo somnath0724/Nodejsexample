@@ -1,0 +1,662 @@
+<mat-horizontal-stepper style="background-color: #263238;" [selectedIndex]="index" (children)="move($event)"
+    (selectionChange)="move($event.selectedIndex)">
+    <mat-step [stepControl]="firstFormGroup">
+            <ng-template matStepLabel>Basic Info</ng-template>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+            <ng-template matStepLabel>Point of Contact</ng-template>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+            <ng-template matStepLabel>Terminal Template Builder</ng-template>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+            <ng-template matStepLabel>Terminal Locations</ng-template>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+            <ng-template matStepLabel>Connectivity Group</ng-template>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+            <ng-template matStepLabel>Indicator</ng-template>
+    </mat-step>
+</mat-horizontal-stepper>
+
+
+<form (ngSubmit)="onSubmit()" #pmr_form="ngForm" class="form-parent">
+    <mat-vertical-stepper style="background-color: #263238" [selectedIndex]="index" (children)="move($event)"
+        (selectionChange)="move($event.selectedIndex)">
+        <mat-step class="circle-icon" [stepControl]="firstFormGroup">
+            <ng-template style="color: white" matStepLabel>Basic Info</ng-template>
+            <div class="d-flex flex-row justify-content-center" style="margin-right: 10%;">
+                <div title="Mission Info" layout="row"
+                    style="padding: 15px; border: 2px solid white; border-radius: 
+                    10px; width: 300px; float:left; margin: 10px">
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="JIST ID" type="number" name="jist_id" disabled
+                                [(ngModel)]="pmr_model.jist_id" id="jist_id">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Subject" name="subject" [(ngModel)]="pmr_model.subject"
+                                type="text" id="subject">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="NARR" type="text" disabled [(ngModel)]="pmr_model.narr"
+                                name="narr" id="narr">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Mission Name" [(ngModel)]="pmr_model.mission_name"
+                                class="primary" type="text" name="mission_name" id="mission_name">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <textarea matInput placeholder="Mission Remarks" [(ngModel)]="pmr_model.mission_remarks"
+                                type="text" name="mission_remarks" id="mission_remarks"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div title="Flight Info" layout="row"
+                    style="padding: 15px; border: 2px solid white; border-radius: 10px; 
+                    width: 300px; float:left; margin: 10px">
+                    <div>
+                        <mat-form-field>
+                            <mat-select matInput placeholder="Servicing RSSC" name="servicing_rssc" id="servicing_rssc"
+                                [(ngModel)]="pmr_model.servicing_rssc">
+                                <mat-option *ngFor="let rssc of rsscs" [value]="rssc">
+                                    {{ rssc }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <mat-select matInput placeholder="Sponsoring CCSA"
+                                (selectionChange)="select_cc_s_a_component($event)" name="sponsoring_cc_s_a" 
+                                class="sponsoring_cc_s_a"
+                                id="sponsoring_cc_s_a" [(ngModel)]="pmr_model.sponsoring_cc_s_a">
+                                <mat-option id="sponsoring_options" *ngFor="let spon of cc_s_a_sponsors" 
+                                [value]="spon.name">{{spon.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <mat-select matInput placeholder="Sponsoring component"
+                                [(ngModel)]="pmr_model.sponsoring_component_or_organization"
+                                id="sponsoring_component_or_organization" name="sponsoring_component_or_organization">
+                                <mat-option *ngFor="let comp of cssa_selection" [value]="comp">{{comp}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Requesting Unit/Org"
+                                [(ngModel)]="pmr_model.requesting_unit_or_organization"
+                                name="requesting_unit_or_organization" class="primary" type="text"
+                                id="requesting_unit_or_organization">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <mat-select placeholder="Requested Constellation" [(ngModel)]="pmr_model.requested_constellation"
+                                id="requested_constellation" name="requested_constellation">
+                                <mat-option *ngFor="let constellation of constellations" [value]="constellation">
+                                    {{constellation}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <mat-select placeholder="Requested Flight" [(ngModel)]="pmr_model.requested_flight"
+                                id="requested_flight" name="requested_flight">
+                                <mat-option *ngFor="let flight of flights" [value]="flight">
+                                    {{flight}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Aggregate Mission Start Time"
+                                [(ngModel)]="pmr_model.start_time" type="text" name="aggregate_mission_start_time"
+                                id="aggregate_mission_start_time">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Aggregate Mission End Time" [(ngModel)]="pmr_model.start_time"
+                                type="text" name="aggregate_mission_end_time" id="aggregate_mission_end_time">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+            </div>
+
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+            <ng-template matStepLabel>Point of Contact</ng-template>
+            <div class="d-flex flex-row justify-content-center" style="margin-right: 10%;">
+
+                <div layout="row"
+                    style="border: 2px solid white; border-radius: 10px; width: 300px; 
+                    float:left; padding: 15px; margin: 10px">
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Submitter name" [(ngModel)]="pmr_model.submitter_name"
+                                for="submitter_name" class="primary" type="text" name="submitter_name"
+                                id="submitter_name">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Submitter Organization"
+                                [(ngModel)]="pmr_model.submitter_organization" type="text" id="submitter_organization"
+                                name="submitter_organization">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Submitter Phone number" type="text"
+                                [(ngModel)]="pmr_model.submitter_phone_number" name="submitter_phone_number"
+                                id="submitter_phone_number">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Submitter NIPRnet" type="text"
+                                [(ngModel)]="pmr_model.submitter_niprnet_email" name="submitter_niprnet_email"
+                                id="submitter_niprnet_email">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Submitter SIRPnet" type="text"
+                                [(ngModel)]="pmr_model.submitter_siprnet_email" name="submitter_siprnet_email"
+                                id="submitter_siprnet_email">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <div layout="row"
+                    style="border: 2px solid white; padding:15px; border-radius: 10px; 
+                    width: 300px; float:left; margin: 10px">
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Requestor Name" type="text"
+                                [(ngModel)]="pmr_model.requestor_name" name="requestor_name" id="requestor_name">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Requestor Phone number"
+                                [(ngModel)]="pmr_model.requestor_phone_number" name="requestor_phone_number" type="text"
+                                id="requestor_phone_number">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Requestor NIPRnet Email"
+                                [(ngModel)]="pmr_model.requestor_niprnet_email" type="text"
+                                name="requestor_niprnet_email" id="requestor_niprnet_email">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Requestor SIPRnet Email"
+                                [(ngModel)]="pmr_model.requestor_siprnet_email" type="text" id="requestor_niprnet_email"
+                                name="requestor_niprnet_email">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+            <ng-template matStepLabel>Terminal Template Builder</ng-template>
+            <div class="d-flex flex-row justify-content-center" style="margin-right: 10%;">
+                <div title="Mission Info" layout="row"
+                    style="padding: 15px; border: 2px solid white; border-radius: 10px; 
+                    width: 300px; float:left; margin: 10px">
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Requestor Name" type="text" name="requestor_name"
+                                id="requestor_name">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Phone number" type="text" name="requestor_phone_number"
+                                id="requestor_phone_number">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="NIPRnet Email" type="text" name="requestor_niprnet_email"
+                                id="requestor_niprnet_email">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="SIPRnet Email" type="text" name="requestor_niprnet_email"
+                                id="requestor_niprnet_email">
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field>
+                            <input matInput placeholder="Requestor Organization" type="text" id="requestor_organization"
+                                name="requestor_organization">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+            <ng-template matStepLabel>Terminal Locations</ng-template>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+            <form>
+                <ng-template matStepLabel>Connectivity Group</ng-template>
+                <div class="d-flex flex-row justify-content-center" style="margin-right: 10%;">
+                    <div title="Connectivity Gro" layout="row"
+                        style="padding: 15px; border: 2px solid white; border-radius: 10px; 
+                        width: 300px; float:left; margin: 10px">
+                        <div>
+                            <mat-form-field>
+                                <mat-select matInput [(ngModel)]="pmr_model.cjcsi_6250_01_mission_priority"
+                                    placeholder="CJCSI 6250.01 Priority" matInput name="cjcsi_6250_01_mission_priority"
+                                    id="cjcsi_6250_01_mission_priority">
+                                    <mat-option *ngFor="let priority of mission_priorities" [value]="priority">
+                                        {{priority}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput [(ngModel)]="pmr_model.sdb_number_waiver"
+                                    placeholder="SDB Waiver Number" type="text" name="sdb_number_waiver"
+                                    id="sdb_number_waiver">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" placeholder="CnG Name" [(ngModel)]="pmr_model.cng_name"
+                                    id="cng_name" name="cng_name">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" placeholder="CnG Organization"
+                                    [(ngModel)]="pmr_model.cng_owning_organization" id="cng_owning_organization"
+                                    name="cng_owning_organization">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" placeholder="CVID or CVID Map"
+                                    [(ngModel)]="pmr_model.cvid_or_cvid_map" id="cvid_or_cvid_map"
+                                    name="cvid_or_cvid_map">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <textarea matInput type="text" placeholder="CnG Description"
+                                    [(ngModel)]="pmr_model.cng_description" id="cng_description"
+                                    name="cng_description"></textarea>
+                                <!-- This is going to be a large text field -->
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <mat-select matInput placeholder="Port Mode" [(ngModel)]="pmr_model.port_mode"
+                                    id="port_mode" name="port_mode">
+                                    <mat-option *ngFor="let port of port_modes" [value]="port">{{port}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <!-- THIS FIELD IS ONLY AVAILABLE IF PPPoE is selected-->
+                                <input matInput disable type="text" placeholder="Data Rate"
+                                    [(ngModel)]="pmr_model.data_rate" id="data_rate" name="data_rate">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="number" placeholder="Min Rate kbps"
+                                    [(ngModel)]="pmr_model.pppoe_min_rate_kbps" id="pppoe_min_rate_kbps"
+                                    name="pppoe_min_rate_kbps">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="number" placeholder="Max Rate kbps"
+                                    [(ngModel)]="pmr_model.pppoe_max_rate_kbps" id="pppoe_max_rate_kbps"
+                                    name="pppoe_max_rate_kbps">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <mat-select matInput placeholder="Direction" [(ngModel)]="pmr_model.direction"
+                                    id="direction" name="direction">
+                                    <mat-option *ngFor="let dir of directions" [value]="dir">{{dir}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <mat-select matInput placeholder="Reachback Method"
+                                    [(ngModel)]="pmr_model.reachback_method" id="reachback_method"
+                                    name="reachback_method">
+                                    <mat-option *ngFor="let rb_meth of rb_methods" [value]="rb_meth">{{rb_meth}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <mat-select matInput placeholder="Reachback Location"
+                                    [(ngModel)]="pmr_model.reachback_location" id="reachback_location"
+                                    name="reachback_location">
+                                    <mat-option *ngFor="let rb_loc of rb_locations" [value]="rb_loc">{{rb_loc}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="number" [(ngModel)]="pmr_model.broadcast_ccr"
+                                    placeholder="Broadcast CCR" id="broadcast_ccr" name="broadcast_ccr">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="number" [(ngModel)]="pmr_model.broadcast_cir"
+                                    placeholder="Broadcast CIR" id="broadcast_cir" name="broadcast_cir">
+                                <!-- RX ONLY-->
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text"
+                                    [(ngModel)]="pmr_model.receive_only_terminal_configuration_files_update_periodicity"
+                                    placeholder="Update Periodically"
+                                    id="receive_only_terminal_configuration_files_update_periodicity"
+                                    name="receive_only_terminal_configuration_files_update_periodicity">
+                                <!-- RX ONLY-->
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <textarea matInput type="text" [(ngModel)]="pmr_model.network_specific_remarks"
+                                    placeholder="Network Specific Remarks" id="network_specific_remarks"
+                                    name="network_specific_remarks"></textarea>
+                                <!-- This is going to be a large text field -->
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" [(ngModel)]="pmr_model.is_strategic_service_requested"
+                                    placeholder="Strategic Service Requested" id="is_strategic_service_requested"
+                                    name="is_strategic_service_requested">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" [(ngModel)]="pmr_model.all_terminals_in_same_channel_group"
+                                    placeholder="All Terminals in Channel Group"
+                                    id="all_terminals_in_same_channel_group" name="all_terminals_in_same_channel_group">
+                            </mat-form-field>
+                        </div>
+
+                        <!-- TERMINALS -->
+                        <div>
+                            <mat-form-field>
+                                <input matInput placeholder="Terminal Id" type="text" id="terminal_id"
+                                    name="terminal_id" [(ngModel)]="pmr_model.terminal_id">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput placeholder="Terminal Name" type="text" name="terminal_name"
+                                    id="terminal_name" [(ngModel)]="pmr_model.terminal_name">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <mat-label for="terminal_type">Terminal Type</mat-label>
+                                <mat-select matInput name="terminal_type" id="terminal_type"
+                                    [(ngModel)]="pmr_model.terminal_type">
+                                    <mat-option *ngFor="let term of term_types" [value]="term">{{term}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput placeholder="Terminal Nomenclature" type="text" name="nomenclature"
+                                    id="nomenclature" [(ngModel)]="pmr_model.nomenclature">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" placeholder="Antenna Polarization Capabilities"
+                                    [(ngModel)]="pmr_model.antenna_polarization_capabilities"
+                                    name="antenna_polarization_capabilities" id="antenna_polarization_capabilities">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" placeholder="Antenna Size"
+                                    [(ngModel)]="pmr_model.antenna_size" name="antenna_size" id="antenna_size">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" [(ngModel)]="pmr_model.modem_type" placeholder="Modem Type"
+                                    id="modem_type" name="modem_type">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="number" [(ngModel)]="pmr_model.ecu_serial_number"
+                                    placeholder="ECU Serial" id="ecu_serial_number" name="ecu_serial_number">
+                                <!-- confirm precission of field-->
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" [(ngModel)]="pmr_model.affiliated" placeholder="Affiliation"
+                                    id="affiliated" name="affiliated">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <mat-select matInput [(ngModel)]="pmr_model.requested_band" id="requested_band"
+                                    placeholder="Requested Band" name="requested_band">
+                                    <mat-option *ngFor="let band of requested_bands" [value]="band">
+                                        {{band}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="number" [(ngModel)]="pmr_model.requested_fl_data_rate"
+                                    placeholder="FL Data Rate" id="requested_fl_data_rate"
+                                    name="requested_fl_data_rate">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="number" [(ngModel)]="pmr_model.requested_rl_data_rate"
+                                    placeholder="RL Data Rate" id="requested_rl_data_rate"
+                                    name="requested_rl_data_rate">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="number" [(ngModel)]="pmr_model.terminal_latitude"
+                                    placeholder="Terminal Latitude" id="terminal_latitude" name="terminal_latitude">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="number" [(ngModel)]="pmr_model.terminal_longitude"
+                                    placeholder="Terminal Longitude" id="terminal_longitude" name="terminal_longitude">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="number" [(ngModel)]="pmr_model.terminal_altitude"
+                                    placeholder="Terminal Altitude" id="terminal_altitude" name="terminal_altitude">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="number" [(ngModel)]="pmr_model.cng_weight"
+                                    placeholder="CnG Weight" id="cng_weight" name="cng_weight">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <mat-select matInput [(ngModel)]="pmr_model.dscp_map" id="dscp_map"
+                                    placeholder="DSCP Map" name="dscp_map">
+                                    <mat-option *ngFor="let dscp of dscps" [value]="dscp">
+                                        {{dscp}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" [(ngModel)]="pmr_model.method_of_postive_control"
+                                    placeholder="Method of Positive Control" id="method_of_postive_control"
+                                    name="method_of_postive_control">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div title="Contact Information" layout="row"
+                        style="padding: 15px; border: 2px solid white; border-radius: 10px; 
+                        width: 300px; float:left; margin: 10px">
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" [(ngModel)]="pmr_model.name" placeholder="PoC Name"
+                                    id="name" name="name">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" [(ngModel)]="pmr_model.phone_number"
+                                    placeholder="PoC Phone Number" id="phone_number" name="phone_number">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" [(ngModel)]="pmr_model.siprnet_email"
+                                    placeholder="PoC SIPRNet Email" id="siprnet_email" name="siprnet_email">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" [(ngModel)]="pmr_model.niprnet_email"
+                                    placeholder="PoC NIPRNet Email" id="niprnet_email" name="niprnet_email">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" [(ngModel)]="pmr_model.organization"
+                                    placeholder="PoC Organization" id="organization" name="organization">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+            <form>
+                <ng-template matStepLabel>Indicator</ng-template>
+            </form>
+        </mat-step>
+    </mat-vertical-stepper>
+
+    <table style="visibility: hidden;">
+        <th>data</th>
+    </table>
+    <br>
+    <button mat-raised-button color="primary" type="submit" class="btn btn-success">Submit</button>
+</form>
+<div style="width: 100%;">
+{{response}}
+{{diagnostic}}
+</div>

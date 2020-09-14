@@ -1,0 +1,87 @@
+
+<mat-tab-group class="sidebar-tasks">
+    <mat-tab label="Tasks">
+        <br>
+        <h2>Tasks</h2>
+        <table>
+            <tr>
+                <th><strong>Task Name</strong></th>
+                <th><strong>Process Name</strong></th>
+                <th><strong>Case Info</strong></th>
+                <th><strong>Last Updated</strong></th>
+                <th></th>
+            </tr>
+            <tr *ngFor="let product of products; index as productId">
+                <td>{{product.name}}</td>
+                <td>{{product.processName}}</td>
+                <td>{{product.caseInfo}}</td>
+                <td>{{product.lastUpdated}}</td>
+                <td><div>
+                        <mat-button-toggle-group name="OpenSans">
+                          <mat-button-toggle value="work" color="primary" class="mat-button-toggle-select">
+                              Work</mat-button-toggle>
+                          <mat-button-toggle value="release" color="primary" class="mat-button-toggle-select">
+                              Release</mat-button-toggle>
+                        </mat-button-toggle-group>
+                      </div>
+                </td>
+            </tr>
+        </table>
+        <br><br><br>
+        <p style="font-size: 3px;"> </p>
+    </mat-tab>
+    <mat-tab label="Messages">
+        <br>
+        <h2>Messages</h2>
+        <table>
+            <tr>
+                <th><strong>Task Name</strong></th>
+                <th><strong>Status</strong></th>
+                <th><strong>Process Name</strong></th>
+                <th><strong>Case Info</strong></th>
+                <th><strong>Last Updated</strong></th>
+                <th><strong>Actions</strong></th>
+            </tr>
+            <tr *ngFor="let product of products; index as productId">
+                <td>{{product.name}}</td>
+                <td>{{product.status}}</td>
+                <td>{{product.processName}}</td>
+                <td>{{product.caseInfo}}</td>
+                <td>{{product.lastUpdated}}</td>
+                <td><button style="background-color: grey">
+                        Take
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <br><br><br>
+        <p style="font-size: 3px;"> </p>
+    </mat-tab>
+    <mat-tab label="Tickets">
+        <br>
+        <h2>Tickets</h2>
+        <table>
+            <tr>
+                <th><strong>Task Name</strong></th>
+                <th><strong>Status</strong></th>
+                <th><strong>Process Name</strong></th>
+                <th><strong>Case Info</strong></th>
+                <th><strong>Last Updated</strong></th>
+                <th><strong>Actions</strong></th>
+            </tr>
+            <tr *ngFor="let product of products; index as productId">
+                <td>{{product.name}}</td>
+                <td>{{product.status}}</td>
+                <td>{{product.processName}}</td>
+                <td>{{product.caseInfo}}</td>
+                <td>{{product.lastUpdated}}</td>
+                <td><button style="background-color: grey">
+                        Take
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <br><br><br>
+        <p style="font-size: 3px;"> </p>
+    </mat-tab>
+</mat-tab-group>

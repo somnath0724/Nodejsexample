@@ -1,0 +1,251 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Global Styles */
+
+/* You can add global styles to this file, and also import other style files */
+@import './assets/css/ptes-dark-theme.scss';
+/* Global Styles */
+
+@font-face{
+    font-family: "OpenSans";
+    src: url(./assets/fonts/OpenSans-Regular.ttf);
+}
+
+html, body { height: 100%; }
+  body { 
+      color: #BDBDBD;
+      margin: 0; 
+      font-family: "OpenSans", sans-serif; 
+      background-color: #37474f; 
+  }
+  .container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  mat-form-field {
+    width: 100%;
+    background-color: #37474f !important;
+  }
+  
+  table{
+    width: 100%;
+  }
+
+  table tr {
+    border-right: 0px !important;
+    border-left: 0px !important;
+  }
+  
+
+  mat-tab-group {
+    padding-right: 20px !important; 
+  }
+  
+  router-outlet  { //NOSONAR
+    padding: 0 16px;
+  }
+
+  .ng-sidebar--opened {
+    width: 45% !important;
+}
+
+  .ng-sidebar { 
+    width: 45% !important;  
+  }
+
+  .ng-sidebar table td {
+    border-right: 0px !important;
+    border-left: 0px !important; 
+  }
+
+  .ng-sidebar table th {
+    border-right: 0px !important;
+    border-left: 0px !important; 
+  }
+  
+  /* Text */
+  
+  h1 {
+    font-size: 32px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    color: white;
+  }
+  
+  h1, h2 {
+    font-weight: lighter;
+  }
+  
+  p {
+    font-size: 14px;
+  }
+
+  .ng-sidebar--left {
+    background: #37474f;
+    width: 20rem;
+}
+
+.ng-sidebar--right {
+  background: #3b3a37;
+  width: 20rem;
+}
+  
+  /* Hyperlink */
+  
+  a {
+    cursor: pointer;
+    color: #1976d2;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    opacity: 0.8;
+  }
+  
+  /* Input */
+  
+  input {
+    font-size: 14px;
+    border-radius: 2px;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #BDBDBD;
+  }
+  
+  label {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    display: block;
+    // text-transform: uppercase;
+  }
+  
+  /* Button */
+  .button, button {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 2px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+  }
+  
+  .button:hover, button:hover {
+    opacity: 0.8;
+    font-weight: normal;
+  }
+  
+  .button:disabled, button:disabled {
+    opacity: 0.5;
+    cursor: auto;
+  }
+  
+  /* Fancy Button */
+  
+  .fancy-button {
+    background-color: white;
+    color: #1976d2;
+  }
+  
+  .fancy-button i.material-icons {
+    color: #1976d2;
+    padding-right: 4px;
+  }
+  
+  /* Top Bar */
+  
+  app-top-bar { //NOSONAR
+    width: 100%;
+    height: 3.5vw;
+    background-color: #263238;
+    border-bottom: 1px solid white;
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  app-top-bar h1 { //NOSONAR
+    color: white;
+    margin: 0;
+  }
+
+  app-top-bar h3 { //NOSONAR
+    color: white;
+    margin: 0;
+    font-size: 1vw;
+  }
+  
+.datePickerDiv{
+    background-color: #263238;
+    border-radius: 3px;
+    height: 300px;
+    width: 800px;
+}
+
+.image-button:hover{
+    color: #0094CC;
+}
+
+.mat-button-toggle-select:focus{
+    baCkground-color: #0094CC;
+}
+
+.mat-flat-button:hover{
+    background-color: #0094cc;
+    color: #000A12;
+    transition: 0.3;
+}
+.mat-flat-button-warn:hover{
+    background: #d50000;
+    color: #BDBDBD;
+    transition: 0.3;
+}
+.mat-stroked-button:hover{
+    background-color: #0094cc;
+    color: #000A12;
+    transition: 0.3;
+}
+.mat-spinner circle{
+    stroke: #0094cc;
+}
+.mat-stroked-button-warn:hover{
+    background: #d50000;
+    color: #BDBDBD;
+    transition: 0.3;
+}
+.mat-button-toggle{
+    background-color: #263238;
+    color: #BDBDBD;
+}
+.mat-button-toggle-checked{
+    background-color: #0094CC;
+    color: #BDBDBD;
+}
+.matToolTip{
+    background-color: #263238;
+    color: #BDBDBD;
+    border-style: solid;
+    border-width: thin;
+}
+.tabContent{
+    background-color: #263238;
+    border: none;
+    border-radius: 3px;
+    height: 200px;
+    margin: 10px;
+    stroke: #0094CC;
+    width:90%;
+}
+.toggleBtn{
+    height: 40px;
+    vertical-align: top;
+}

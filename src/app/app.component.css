@@ -1,0 +1,24 @@
+p {
+    font-family: Lato, sans-serif;
+  }
+  /* css for left side bar */
+  .left_side {
+    font-size: .7vw; 
+    background-color: #263238; 
+    text-align: center; 
+    border-right: 6px solid white; 
+    max-width: 4vw;
+  }
+  /* css for right side bar */
+  .right_side {
+    font-size: .7vw; 
+    background-color: #263238; 
+    text-align: center; 
+    border-left: 6px solid white; 
+    max-width: 4vw;
+  }
+  /*
+  Copyright Google LLC. All Rights Reserved.
+  Use of this source code is governed by an MIT-style license that
+  can be found in the LICENSE file at http://angular.io/license
+  */

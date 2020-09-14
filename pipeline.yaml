@@ -1,0 +1,43 @@
+# Defaults
+projectDefaults: nostromo-defaults.yaml
+
+# App Info
+applicationName: demo-nodejs
+applicationLabel: ptes-demo-nodejs
+imageDestination: '%buildDockerRegistry%/devops/demos/nodejs/ptes-demo-nodejs-svc'
+ocAppParam1: APPLICATION_NAME=%applicationName%
+ocAppParam2: APPLICATION_LABEL=%applicationLabel%
+ocAppParam3: APPLICATION_HOSTNAME=%applicationName%
+ocAppParam4: PROJECT_VERSION=%NEXT_SEMANTIC_BUILD%
+
+# Scan archive
+scanPath: /mnt/scans/images/devops-demos
+
+# Multibranch job, need to specify branch
+testJob1: Build_String_Verification=PipelineTests/ptes-demo-test1
+testJob2: Build_String_Verification=PipelineTests/ptes-demo-test2
+testJob3: Develop_String_Verification=PipelineTests/ptes-demo-test1
+testJob4: Develop_String_Verification=PipelineTests/ptes-demo-test2
+testJob5: Develop_String_Verification=PipelineTests/ptes-demo-test3
+testJob6: Test_String_Verification=PipelineTests/ptes-demo-test1
+testJob7: Test_String_Verification=PipelineTests/ptes-demo-test2
+testJob8: Test_String_Verification=PipelineTests/ptes-demo-test3
+testJob9: Test_String_Verification=PipelineTests/ptes-demo-test4
+
+# Overrides for feature branch / testing
+testProject: ws-dolloff-mike-test                 # Overrides the default testProject value
+developmentProject: ws-dolloff-mike-dev           # Overrides the default developmentProject value
+mattermostEndpointDev: https://mattermost.web.boeing.com/hooks/tf7xb4d8jtnj9gh3d9zkfhq9qw
+mattermostChannelDev: pipeline-test
+mattermostEndpointTest: https://mattermost.web.boeing.com/hooks/tf7xb4d8jtnj9gh3d9zkfhq9qw
+mattermostChannelTest: pipeline-test
+
+printEnvVars: true
+failOnSonar: true
+
+testVal1: This
+testVal2: is
+testVal3: a
+testVal4: Test
+testVal5: ofVarSubstitutions
+testVal6: "Beginning%testVal1%%testVal2%%testVal3%%testVal4%%testVal5%End"

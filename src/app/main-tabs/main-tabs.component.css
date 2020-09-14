@@ -1,0 +1,41 @@
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 98%;
+  table-layout: fixed;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  overflow: hidden;
+  color: white;
+}
+
+tr {
+  background-color: #37474F;
+  border-left: 0px solid;
+  border-right: 0px solid;
+}
+
+
+.mat-tab-label-active{
+  background-color: grey;
+  opacity: 1 !important;
+}
+
+.mat-tab-label {
+  color: white;
+}
+
+.mat-tab-group {
+  width: 100% !important
+}
+
+
+.mat-tab-label {
+  color: white ;
+  opacity: 1 !important;
+}

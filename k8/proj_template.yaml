@@ -1,0 +1,196 @@
+kind: Template
+apiVersion: v1
+metadata:
+  annotations:
+    openshift.io/display-name: "${APPLICATION_NAME}"
+    openshift.io/provider-display-name: "PTES Development"
+    iconClass: "icon-openshift"
+    description: PTES Development Project
+    tags: instant-app
+  name: "DEV-${APPLICATION_NAME}"
+message: "PTES Dev Project"
+
+objects:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${APPLICATION_NAME}
+    labels:
+      app: ${APPLICATION_LABEL}
+  spec:
+    ports:
+    - name: ${APPLICATION_NAME}
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentconfig: ${APPLICATION_NAME}
+    sessionAffinity: None
+    type: ClusterIP  
+
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for ${APPLICATION_NAME} service
+    name: ${APPLICATION_NAME}
+    labels:
+      app: ${APPLICATION_LABEL}
+  spec:
+    path: /
+    to:
+      kind: Service
+      name: ${APPLICATION_NAME}
+
+#- apiVersion: v1
+#  kind: PersistentVolumeClaim
+#  metadata:
+#   name: "${APPLICATION_NAME}-data"
+#  spec:
+#    accessModes:
+#    - ReadWriteMany
+#    resources:
+#      requests:
+#        storage: 5Gi
+
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels: 
+      app: ${APPLICATION_LABEL}
+      deploymentconfig: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    replicas: 1
+    selector:
+      deploymentconfig: ${APPLICATION_NAME}
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: ${APPLICATION_LABEL}
+          deploymentconfig: ${APPLICATION_NAME}
+      spec:
+        containers:
+        - image: ${REGISTRY_IMAGE}
+          imagePullPolicy: Always
+          name: ${APPLICATION_NAME}
+          ports:
+          - containerPort: 8080
+          env:
+          - name: PROJECT_OPTS_EXAMPLE_ONE
+            value: -ValueOne
+          - name: PROJECT_OPTS_EXAMPLE_TWO
+            value: -ValueTwo
+#          volumeMounts:
+#           - mountPath: /var/jenkins_home
+#             name: ${APPLICATION_NAME}-data
+        restartPolicy: Always
+        volumes:
+#        - name: ${APPLICATION_NAME}-data
+#          persistentVolumeClaim:
+#            claimName: ${APPLICATION_NAME}-data
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - ${APPLICATION_NAME}
+        from:
+          kind: ImageStreamTag
+          name: ${REGISTRY_IMAGE}
+          namespace: ${NAMESPACE}
+
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: ${APPLICATION_LABEL}
+    name: ${APPLICATION_NAME}
+  spec:
+    tags:
+    - annotations:
+        description: ptes development ${APPLICATION_NAME}
+        tags: ${APPLICATION_NAME}
+      from:
+        kind: DockerImage
+        name: ${REGISTRY_IMAGE}
+      generation: null
+      importPolicy:
+        insecure: true
+      name: base
+
+
+"parameters": [
+      {
+         "description": "The name for the application.",
+         "name": "APPLICATION_NAME",
+      },
+      {
+         "description": "The app label to use for the application.",
+         "name": "APPLICATION_LABEL",
+      },
+      {
+         "description": "A brief description of the application.",
+         "name": "APPLICATION_DESCRIPTION",
+         "value": "PTES development example project"
+      },	  
+      {
+         "description": "Build version (full semantic version, e.g. 1.2.3.4, 1.2.3.5, etc.",
+         "name": "PROJECT_VERSION",
+      },
+      {
+         "description": "Image",
+         "name": "REGISTRY_IMAGE",
+      },	  
+      {
+         "description": "Custom hostname for service routes.",
+         "name": "APPLICATION_HOSTNAME"
+      },
+      {
+         "description": "Kubernetes project / namespace.",
+         "name": "NAMESPACE"
+      },
+      {
+         "description": "ZZZGit source URI for application",
+         "name": "ZZZGIT_URI",
+         "value": "https://bit-sde-01.web.boeing.com:8443/scm/ptes/ptes-demo-sb.git"
+      },
+      {
+         "description": "ZZZGit branch/tag reference",
+         "name": "ZZZGIT_REF",
+         "value": "master"
+      },
+      {
+         "description": "ZZZDatabase name",
+         "name": "ZZZMONGODB_DATABASE",
+         "value": "ZZZroot"
+      },
+      {
+         "description": "ZZZDatabase user name",
+         "name": "ZZZMONGODB_USER",
+         "from": "user[a-zA-Z0-9]{3}",
+         "generate": "expression"
+      },
+      {
+         "description": "ZZZDatabase user password",
+         "name": "ZZZMONGODB_PASSWORD",
+         "from": "[a-zA-Z0-9]{8}",
+         "generate": "expression"
+      },
+      {
+         "description": "ZZZGithub trigger secret",
+         "name": "ZZZGITHUB_TRIGGER_SECRET",
+         "from": "[a-zA-Z0-9]{8}",
+         "generate": "expression"
+      },
+]

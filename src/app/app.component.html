@@ -1,0 +1,39 @@
+<!-- insert the top bar navigation-->
+<app-top-bar></app-top-bar>
+
+<!-- main container-->
+<ng-sidebar-container>
+ 
+    <!-- A sidebar -->
+    <ng-sidebar mode="push" [(opened)]="_opened" closeOnClickBackdrop="true">
+      <p>Sidebar for tickets</p>
+      <!-- app tasks component in left sidebar-->
+     <app-tasks></app-tasks>
+    </ng-sidebar>
+
+    <!-- A sidebar -->
+	  <ng-sidebar mode="push" [(opened)]="_opened_right" position="right" closeOnClickBackdrop="true">
+        <p style="text-align: right">Right Sidebar</p>
+        <a closeSidebar>Close the sidebar</a>
+      <ul>
+        <!-- placeholder menu items for now-->
+        <li>Menu Item</li>
+        <li>Menu Item</li>
+        <li>Menu Item</li>
+      </ul>
+	  </ng-sidebar>
+
+    <!-- Page content -->
+    <div ng-sidebar-content>
+        <div class="container">
+        <!-- this contains 2 sidebars, the router outlet and 2 buttons to open/close the sidebars-->
+        <button class="left_side" *ngIf="router.url == '/'" (click)="_toggleSidebar()">Tickets</button>
+        <router-outlet></router-outlet>
+        <button class="right_side" *ngIf="router.url == '/'" (click)="_toggleSidebar_right()">Pinned</button>
+      </div>
+    </div>
+
+  </ng-sidebar-container>
+  <!-- end app component -->
+
+
